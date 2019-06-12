@@ -1,0 +1,22 @@
+{
+  "name": "passport-apple-example",
+  "version": "1.0.0",
+  "description": "Passport Strategy for Sign in with Apple example",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ananay/passport-apple-example.git"
+  },
+  "author": "Ananay Arora <i@ananayarora.com> (https://ananayarora.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ananay/passport-apple-example/issues"
+  },
+  "homepage": "https://github.com/ananay/passport-apple-example#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
