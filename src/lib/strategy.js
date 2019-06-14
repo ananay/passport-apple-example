@@ -37,22 +37,30 @@ const OAuth2Strategy = require('passport-oauth2'),
  *  Developer Account page
  * @param {string} options.privateKeyLocation - Location to the private key
  * @param {function} verify
+ * @access public
  */
 function Strategy(options, verify) {
-    
+    // Set the URLs
     options = options || {};
     options.authorizationURL = options.authorizationURL || 'https://appleid.apple.com/auth/authorize';
     options.tokenURL = options.tokenURL || 'https://appleid.apple.com/auth/token';
 
+    // Make the OAuth call
     OAuth2Strategy.call(this, options, verify);
     this.name = 'apple';
+
+    // Initiliaze the client_secret generator
     const _tokenGenerator = new AppleClientSecret({
         "client_id": options.clientID,
         "team_id": options.teamID,
         "key_id": options.keyID
     }, options.privateKeyLocation);
 
+    // Get the OAuth Access Token from Apple's server
+    // using the grant code / refresh token.
+
     this._oauth2.getOAuthAccessToken = function(code, params, callback) {
+        // Generate the client_secret using the library
         _tokenGenerator.generate().then((client_secret) => {
             params = params || {};
             const codeParam = params.grant_type === 'refresh_token' ? 'refresh_token' : 'code';
@@ -64,7 +72,6 @@ function Strategy(options, verify) {
             const post_headers = {
                 'Content-Type': 'application/x-www-form-urlencoded'
             };
-
             this._request(
                 'POST',
                 this._getAccessTokenUrl(),
@@ -73,36 +80,45 @@ function Strategy(options, verify) {
                 null,
                 function(error, data, response) {
                     if (error) {
-                        console.log(error);
                         callback(error);
                     } else {
-                        var results = JSON.parse(data);
-                        var access_token = results.access_token;
-                        var refresh_token = results.refresh_token;
-                        var id_token = jwt.decode(results.id_token).sub;
+                        let results = JSON.parse(data);
+                        let access_token = results.access_token;
+                        let refresh_token = results.refresh_token;
+                        let id_token = jwt.decode(results.id_token).sub;
                         callback(null, access_token, refresh_token, id_token, results);
                     }
                 }
             )
         }).catch((error) => {
+            // Log to the console if the token generation fails.
             console.log(error);
         });
     }
 }
 
+// Inherit from `OAuth2Strategy`.
 util.inherits(Strategy, OAuth2Strategy);
 
+/**
+ * Process the authentication request
+ * @param {http.IncomingMessage} req
+ * @param {object} options
+ * @access protected
+ */
 Strategy.prototype.authenticate = function(req, options) {
     OAuth2Strategy.prototype.authenticate.call(this, req, options);
 };
 
+/**
+ * Modify the authorization params. Currently adds
+ * the missing `state` parameter
+ * @param {object} options
+ * @access protected
+ */
 Strategy.prototype.authorizationParams = function (options) {
     options.state = crypto.randomBytes(5).toString('hex');
     return options;
 }
-
-// Strategy.prototype.userProfile = function(access_token, done) {
-//     console.log("ACCESSTOKEN", access_token);
-// }
 
 module.exports = Strategy;

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
-const AppleStrategy = require('./lib/strategy.js');
+const AppleStrategy = require('passport-apple');
 
 app.get("/", (req, res) => {
     res.send("<a href=\"/login\">Sign in with Apple</a>");
