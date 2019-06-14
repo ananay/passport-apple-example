@@ -12,7 +12,7 @@ https://github.com/ananay/passport-apple
 https://npmjs.com/package/passport-apple
 
 
-**Live on https://passport-apple.ananay.dev **
+**Live on https://passport-apple.ananay.dev**
 
 ## Configuring
 
