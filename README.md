@@ -4,13 +4,15 @@
 </p>
 
 **This repository is a how-to-use example for my library – passport-apple**
-**Live on https://passport-apple.ananay.dev **
 
 Check it out here:
 
 https://github.com/ananay/passport-apple
 
 https://npmjs.com/package/passport-apple
+
+
+**Live on https://passport-apple.ananay.dev **
 
 ## Configuring
 
