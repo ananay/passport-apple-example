@@ -46,6 +46,6 @@ app.get("/auth", function(req, res, next) {
     })(req, res, next);
 });
 
-app.listen(3000, () => {
-    console.log("Server started on https://apple.exun.co");
+app.listen(4000, () => {
+    console.log("Server started on https://passport-apple.ananay.dev");
 });
