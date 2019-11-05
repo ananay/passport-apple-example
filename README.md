@@ -25,7 +25,7 @@ Configure the parameters here:
 passport.use(new AppleStrategy({
     clientID: "",
     teamID: "",
-    callbackURL: "",
+    redirect_uri: "",
     keyID: "",
     privateKeyLocation: ""
 }, function(accessToken, refreshToken, idToken, profile, cb) {
