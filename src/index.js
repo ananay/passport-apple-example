@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
 const passport = require('passport');
 const AppleStrategy = require('passport-apple');
@@ -10,10 +11,12 @@ app.get("/", (req, res) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 passport.serializeUser(function(user, cb) {
     cb(null, user);
 });
-  
+
 passport.deserializeUser(function(obj, cb) {
     cb(null, obj);
 });
@@ -24,14 +27,14 @@ passport.use(new AppleStrategy({
     callbackURL: "",
     keyID: "",
     privateKeyLocation: ""
-}, function(accessToken, refreshToken, idToken, profile, cb) {
+}, function(req, accessToken, refreshToken, decodedIdToken, profile , cb) {
     // Here, check if the idToken exists in your database!
-    cb(null, idToken);
+    cb(null, decodedIdToken);
 }));
 
 app.get("/login", passport.authenticate('apple'));
-app.get("/auth", function(req, res, next) {
-    passport.authenticate('apple', function(err, user, info) {
+app.post("/auth", function(req, res, next) {
+   passport.authenticate('apple', function(err, user, info) {
         if (err) {
             if (err == "AuthorizationError") {
                 res.send("Oops! Looks like you didn't allow the app to proceed. Please sign in again! <br /> \
@@ -41,7 +44,7 @@ app.get("/auth", function(req, res, next) {
                 <a href=\"/login\">Sign in with Apple</a>");
             }
         } else {
-            res.send("Unique user ID: - " + user);
+            res.json(user);
         }
     })(req, res, next);
 });
