@@ -27,9 +27,9 @@ passport.use(new AppleStrategy({
     callbackURL: "",
     keyID: "",
     privateKeyLocation: ""
-}, function(req, accessToken, refreshToken, decodedIdToken, profile , cb) {
+}, function(req, accessToken, refreshToken, idToken, profile , cb) {
     // Here, check if the idToken exists in your database!
-    cb(null, decodedIdToken);
+    cb(null, idToken);
 }));
 
 app.get("/login", passport.authenticate('apple'));
