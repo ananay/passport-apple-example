@@ -29,7 +29,11 @@ passport.use(new AppleStrategy({
     keyID: "",
     privateKeyLocation: ""
 }, function(accessToken, refreshToken, idToken, profile, cb) {
-    // Here, check if the idToken exists in your database!
+    // Here, check if the idToken.sub exists in your database!
+    if (req.body && req.body.user) {
+      // Register your user here!
+      console.log(req.body.user);
+    }
     cb(null, idToken);
 }));
 ```
