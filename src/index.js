@@ -23,19 +23,15 @@ passport.deserializeUser(function(obj, cb) {
 });
 
 passport.use(new AppleStrategy({
-    clientID: "com.ananayarora.appleauthpassport",
-    teamID: "2PYNZAUK77",
-    callbackURL: "https://passport-apple.ananay.dev/auth",
-    keyID: "3DYB2TW7SX",
-    privateKeyLocation: "config/key.p8"
-}, function(req, accessToken, refreshToken, idToken, profile , cb) {
-    // Here, check if the idToken.sub exists in your database!
-    if (req.body && req.body.user) {
-      // Register your user here!
-      console.log(req.body.user);
-    }
-    cb(null, idToken);
-}));
+        clientID: "",
+        teamID: "",
+        callbackURL: "",
+        keyID: "",
+        privateKeyLocation: ""
+    }, function(req, accessToken, refreshToken, idToken, profile , cb) {
+        // Here, check if the idToken exists in your database!
+        cb(null, idToken);
+    }));
 
 app.get("/login", passport.authenticate('apple'));
 app.post("/auth", function(req, res, next) {
