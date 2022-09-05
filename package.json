@@ -21,5 +21,11 @@
     "express": "^4.17.1",
     "passport": "^0.4.0",
     "passport-apple": "ananay/passport-apple"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.15"
   }
 }

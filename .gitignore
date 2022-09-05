@@ -63,3 +63,4 @@ typings/
 .AppleDouble
 config/AuthKey.p8
 config/config.json
+*.p8
